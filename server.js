@@ -1,5 +1,5 @@
 var static = require('node-static');
-var file = new static.Server('./build');
+var file = new static.Server('./app/build');
 var port = process.env.PORT || 5000
 
 require('http').createServer(function (request, response) {

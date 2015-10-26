@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Finanzas de las elecciones Alcalde - Gobernador 2015</title>
+  <meta name="description" content="Informe detallado del movimiento financiero de las elecciones Alcalde - Gobernación 2015">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <style>
+    html {
+      height: 100%;
+      width: 100%;
+    }
+    body {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+    .state{
+      fill: none;
+      stroke: #E9E9E9;
+      stroke-width: 1;
+    }
+    .state:hover{
+      fill-opacity:0.5;
+    }
+    #tooltip {   
+      position: absolute;           
+      text-align: center;
+      padding: 20px;             
+      margin: 10px;
+      font: 12px sans-serif;        
+      background: lightsteelblue;   
+      border: 1px;      
+      border-radius: 2px;           
+      pointer-events: none;
+    }
+    #tooltip h4{
+      margin:0;
+      font-size:14px;
+    }
+    #tooltip{
+      background:rgba(0,0,0,0.9);
+      border:1px solid grey;
+      border-radius:5px;
+      font-size:12px;
+      width:auto;
+      padding:4px;
+      color:white;
+      opacity:0;
+    }
+    #tooltip table{
+      table-layout:fixed;
+    }
+    #tooltip tr td{
+      padding:0;
+      margin:0;
+    }
+    #tooltip tr td:nth-child(1){
+      width:100px;
+    }
+    #tooltip tr td:nth-child(2){
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    var WebFontConfig = {
+      google: { families: [ 'Roboto:400,300,500:latin' ] }
+    };
+    (function() {
+      var wf = document.createElement('script');
+      wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+      wf.type = 'text/javascript';
+      wf.async = 'true';
+      var s = document.getElementsByTagName('script')[0];//
+      s.parentNode.insertBefore(wf, s);
+    })();
+  </script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="d3.v3.min.js"></script>
+  <script src="colombiaData.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
