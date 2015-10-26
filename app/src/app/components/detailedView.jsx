@@ -8,6 +8,7 @@ const Tab = MaterialComponents.Tab;
 const Card = MaterialComponents.Card;
 const CardText = MaterialComponents.CardText;
 const CardHeader = MaterialComponents.CardHeader;
+const IconButton = MaterialComponents.IconButton;
 const Avatar = require('material-ui/lib/svg-icons/action/grade');
 const Dialog = require('material-ui/lib/dialog');
 const ThemeManager = require('material-ui/lib/styles/theme-manager');
@@ -92,7 +93,7 @@ const DetailedView = React.createClass({
               </Tab>
             </Tabs>
           </div>
-          <div style={{height: '150px', width: '100%'}}>
+          <div style={{height: '150px', width: '100%', boxShadow: '-1px -2px 11px 0px #ccc', position: 'relative'}}>
             <br />
             <h1><span style={totalStyle}>TOTAL INGRESOS:</span> $ {Math.ceil(this.state.totalIncome).toLocaleString()}</h1>
             <h1><span style={totalStyle}>TOTAL EGRESOS:</span> $ {Math.ceil(this.state.totalOutcome).toLocaleString()}</h1>
