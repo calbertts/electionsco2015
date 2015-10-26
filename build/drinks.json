@@ -1,0 +1,7 @@
+{
+   "drinks":[
+      {"name":"Orange juice", "ingredients":"Oranges"},
+      {"name":"Wine", "ingredients":"Grapes"},
+      {"name":"Coffee", "ingredients":"Roasted Beans"}
+   ]
+}
