@@ -49,95 +49,14 @@ const GeneralView = React.createClass({
   },
 
   queryDepData() {
-    let contributions = 'contribuciones,_donaciones_y_créditos,_en_dinero_o_especie,_que_realicen_los_particulares_(anexo_5.2_b)';
-    let capital = 'créditos_o_aportes_que_provengan_del_patrimonio_de_los_candidatos,_de_sus_conyuges__o_de_sus_compañeros_permanentes_o_de_sus_parientes_(anexo_5.1_b).';
-    let adds = 'gastos_de_propaganda_electoral_(anexo_5.7_b)';
-    let invesments = 'inversión_en_materiales_y_publicaciones';
-    let totalOutcoming = 'total_de_los_gastos_de_la_campaña';
-    let totalIncoming = 'total_de_los_ingresos_de_la_campaña';
+    $.get('/getData', function(response) {
+      for(var depId in response.data)
+      {
+        window.coStates.setColor(depId, response.data, response.minIncome, response.maxIncome, response.idDepMax);
+      }
 
-    let testJson = '/testData.json';
-    let finalJson = '/data.json';
-
-    let depsTotalOutIncoming = {};
-    let self = this;
-
-    var maxIncome = 0;
-    var minIncome = 0;
-    var idDepMax = -1;
-
-    oboe(finalJson)
-      .node('data.*', function(candidate) {
-        console.log(1);
-        var amounts = function()
-        {
-          depsTotalOutIncoming[candidate.IdDepartamento].income += candidate.formulario5[totalIncoming] || 0;
-          depsTotalOutIncoming[candidate.IdDepartamento].outcome += candidate.formulario5[totalOutcoming] || 0;
-
-          if(maxIncome < depsTotalOutIncoming[candidate.IdDepartamento].income) {
-            maxIncome = depsTotalOutIncoming[candidate.IdDepartamento].income;
-            idDepMax = candidate.IdDepartamento;
-          }
-          if(minIncome > depsTotalOutIncoming[candidate.IdDepartamento].income) {
-            minIncome = depsTotalOutIncoming[candidate.IdDepartamento].income;
-          }
-
-          depsTotalOutIncoming[candidate.IdDepartamento].contributions += candidate.formulario5[contributions] || 0;
-          depsTotalOutIncoming[candidate.IdDepartamento].capital += candidate.formulario5[capital] || 0;
-          depsTotalOutIncoming[candidate.IdDepartamento].adds += candidate.formulario5[adds] || 0;
-          depsTotalOutIncoming[candidate.IdDepartamento].invesments += candidate.formulario5[invesments] || 0;
-
-          if(candidate.formulario5[totalOutcoming] !== 0 || candidate.formulario5[totalIncoming] !== 0)
-          {
-            depsTotalOutIncoming[candidate.IdDepartamento].candidates.push(candidate);
-          }
-        }.bind(this);
-
-        if(!(candidate.IdDepartamento in depsTotalOutIncoming))
-        {
-          depsTotalOutIncoming[candidate.IdDepartamento] = {
-            name: deps[candidate.IdDepartamento],
-            income: 0,
-            outcome: 0,
-            noData: 0,
-            contributions: 0,
-            capital: 0,
-            adds: 0,
-            invesments: 0,
-            candidates: []
-          };
-
-          amounts();
-
-          // if((!candidate.formulario5[totalOutcoming] || candidate.formulario5[totalOutcoming] === 0) && (!candidate.formulario5[totalIncoming] || candidate.formulario5[totalIncoming] === 0))
-          if(candidate.formulario5[totalOutcoming] === 0 && candidate.formulario5[totalIncoming] === 0)
-          {
-            depsTotalOutIncoming[candidate.IdDepartamento].noData += 1;
-          }
-        }
-        else
-        {
-          amounts();
-        }
-
-        if(candidate.formulario5[totalOutcoming] === 0 && candidate.formulario5[totalIncoming] === 0)
-        {
-          return oboe.drop;
-        }
-
-      })
-      .fail(function(error) {
-        console.log(error);
-      })
-      .done(function( finalJson ) {
-
-        for(var depId in depsTotalOutIncoming)
-        {
-          window.coStates.setColor(depId, depsTotalOutIncoming, minIncome, maxIncome, idDepMax);
-        }
-
-        this.props.onFinishDraw(depsTotalOutIncoming[idDepMax]);
-      }.bind(this));
+      this.props.onFinishDraw(response.data[response.idDepMax]);
+    }.bind(this));
   },
 
   drawData(depsTotalOutIncoming) {

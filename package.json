@@ -4,7 +4,8 @@
   "description": "Informe detallado del movimiento financiero de las elecciones Alcalde - Gobernación 2015",
   "main": "server.js",
   "dependencies": {
-    "node-static": "^0.7.7"
+    "node-static": "^0.7.7",
+    "oboe": "^2.1.2"
   },
   "devDependencies": {},
   "scripts": {
