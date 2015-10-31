@@ -52,6 +52,7 @@ const Main = React.createClass({
   },
 
   _onDepClick(data) {
+    console.log('data', data)
     this.refs.details.loadDepData(data);
   },
 

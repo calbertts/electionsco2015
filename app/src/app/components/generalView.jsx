@@ -49,13 +49,13 @@ const GeneralView = React.createClass({
   },
 
   queryDepData() {
-    $.get('/getData', function(response) {
-      for(var depId in response.data)
+    $.get('/getIncomesData', function(response) {
+      for(var depId in response.lightData)
       {
-        window.coStates.setColor(depId, response.data, response.minIncome, response.maxIncome, response.idDepMax);
+        window.coStates.setColor(depId, response.lightData, response.maxIncome);
       }
 
-      this.props.onFinishDraw(response.data[response.idDepMax]);
+      this.props.onFinishDraw(response.depMaxData);
     }.bind(this));
   },
 
@@ -126,24 +126,13 @@ const GeneralView = React.createClass({
 
       var coStates={};
       var self = this;
+      var drag;
+      var zoom;
         
       coStates.draw = function(id, data, toolTip) {
         var margin = {top: -5, right: -5, bottom: -5, left: -5},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
-
-        var zoom = d3.behavior.zoom()
-            .scaleExtent([1, 10])
-            .on("zoom", zoomed);
-
-        var drag = d3.behavior.drag()
-            .origin(function(d) { return d; })
-            .on("dragstart", dragstarted)
-            .on("drag", dragged)
-            .on("dragend", dragended);
-
-        var svg = d3.select("svg").call(zoom);
-        var container = svg.select("g");
 
         function zoomed() {
           container.attr("transform", "translate(100,-10) scale("+self.scale+")");
@@ -164,7 +153,6 @@ const GeneralView = React.createClass({
         }
 
         function mouseOver(d) {
-          console.log(d);
           d3.select("#tooltip").transition().duration(200).style("fill", 'white');
           
           d3.select("#tooltip").html(toolTip(d.n, data[d.id]))
@@ -175,6 +163,19 @@ const GeneralView = React.createClass({
         function mouseOut() {
           d3.select("#tooltip").transition().duration(500).style("opacity", 1);
         }
+
+        zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
+        drag = d3.behavior.drag()
+            .origin(function(d) { return d; })
+            .on("dragstart", dragstarted)
+            .on("drag", dragged)
+            .on("dragend", dragended);
+
+        var svg = d3.select("svg").call(zoom);
+        var container = svg.select("g");
         
         d3.select(id)
           .selectAll(".state")
@@ -189,24 +190,19 @@ const GeneralView = React.createClass({
           .call(drag);
       }
 
-      coStates.setColor = function(idDep, data, minIncome, maxIncome) {
-        var income = data[idDep].income;
-
+      coStates.setColor = function(idDep, data, maxIncome) {
         d3.select('#dep-'+idDep)
-          .style("fill", d3.interpolate("#FFF8F8", "#9A0000")(income / maxIncome));
-
-        console.log(minIncome, maxIncome);
-
+          .style("fill", d3.interpolate("#FFF8F8", "#9A0000")(data[idDep].income / maxIncome));
 
         d3.select("#statesvg")
           .selectAll(".state")
           .on("mousedown", function mouseDown(d) {
-            console.log(d.id ,data[d.id]);
-            self.props.onDepClick(data[d.id]);
+            $.get('/getCandidate', {idDep: d.id}, function(response) {
+              self.props.onDepClick(response);
+            })
           })
           .on("mouseover", function(d){
-            d3.select("#tooltip").transition().duration(200).style("opacity", 1);
-            
+            d3.select("#tooltip").transition().duration(200).style("opacity", 1);            
             d3.select("#tooltip").html(self.tooltipHtml(d.n, data[d.id]))
               .style("left", (d3.event.pageX) + "px")
               .style("top", (d3.event.pageY - 28) + "px");
