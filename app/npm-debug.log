@@ -1,7 +1,6 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'run',
 1 verbose cli   'start' ]
 2 info using npm@2.14.2
 3 info using node@v4.0.0
@@ -21,9 +20,9 @@
 9 verbose stack     at maybeClose (internal/child_process.js:817:16)
 9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
 10 verbose pkgid material-ui-example@0.8.0
-11 verbose cwd D:\Documents\Projects\electionsToCOP
+11 verbose cwd d:\Documents\Projects\electionsToCOP\app
 12 error Windows_NT 10.0.10240
-13 error argv "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "run" "start"
+13 error argv "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
 14 error node v4.0.0
 15 error npm  v2.14.2
 16 error code ELIFECYCLE
